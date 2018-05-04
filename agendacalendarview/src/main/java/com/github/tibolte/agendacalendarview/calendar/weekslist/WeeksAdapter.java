@@ -13,6 +13,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -37,15 +38,16 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     private List<IWeekItem> mWeeksList = new ArrayList<>();
     private boolean mDragging;
     private boolean mAlphaSet;
-    private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
+    private int mDayTextColor, mPastDayTextColor, mCurrentDayColor, mCurrentDayCircleColor;
 
     // region Constructor
 
-    public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
+    public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor, int currentDayCircleColor, int pastDayTextColor) {
         this.mToday = today;
         this.mContext = context;
         this.mDayTextColor = dayTextColor;
         this.mCurrentDayColor = currentDayTextColor;
+        this.mCurrentDayCircleColor = currentDayCircleColor;
         this.mPastDayTextColor = pastDayTextColor;
     }
 
@@ -172,7 +174,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                     txtDay.setTextColor(mDayTextColor);
                     circleView.setVisibility(View.VISIBLE);
                     GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
-                    drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
+                    drawable.setColor(mCurrentDayCircleColor);
+	                txtDay.setTextColor(Color.parseColor("#FFFFFF"));
                 }
 
                 // Check if the month label has to be displayed

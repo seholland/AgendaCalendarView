@@ -7,6 +7,7 @@
         <attr name="calendarDayTextColor" format="color" />
         <attr name="calendarPastDayTextColor" format="color" />
         <attr name="calendarCurrentDayTextColor" format="color" />
+        <attr name="calendarCurrentDayCircleColor" format="color" />
         <attr name="fabColor" format="color" />
     </declare-styleable>
 </resources>
