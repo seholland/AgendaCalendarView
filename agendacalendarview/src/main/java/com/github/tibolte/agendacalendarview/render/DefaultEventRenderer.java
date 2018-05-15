@@ -34,7 +34,7 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
             locationContainer.setVisibility(View.GONE);
         }
 
-        if (event.getTitle().equals(view.getResources().getString(R.string.agenda_event_no_events))) {
+        if (event.isPlaceHolder()) {
             txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));
         } else {
             txtTitle.setTextColor(view.getResources().getColor(R.color.theme_text_icons));

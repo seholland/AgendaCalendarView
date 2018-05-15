@@ -6,6 +6,7 @@ import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ public class CalendarManager {
     private Calendar mToday = Calendar.getInstance();
     private SimpleDateFormat mWeekdayFormatter;
     private SimpleDateFormat mMonthHalfNameFormat;
+    private String mNoEventText;
 
     /// instances of classes provided from outside
     private IDayItem mCleanDay;
@@ -110,7 +112,7 @@ public class CalendarManager {
 
     // region Public methods
 
-    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IDayItem cleanDay, IWeekItem cleanWeek) {
+    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IDayItem cleanDay, IWeekItem cleanWeek, @Nullable String noEventText) {
         if (minDate == null || maxDate == null) {
             throw new IllegalArgumentException(
                     "minDate and maxDate must be non-null.");
@@ -124,6 +126,14 @@ public class CalendarManager {
         }
 
         setLocale(locale);
+        if(noEventText != null)
+        {
+        	mNoEventText = noEventText;
+        }
+        else
+        {
+        	mNoEventText = mContext.getString(R.string.agenda_event_no_events);
+        }
 
         mDays.clear();
         mWeeks.clear();
@@ -207,7 +217,7 @@ public class CalendarManager {
                     copy.setDayReference(dayItem);
                     copy.setWeekReference(weekItem);
                     copy.setLocation("");
-                    copy.setTitle(getContext().getResources().getString(R.string.agenda_event_no_events));
+                    copy.setTitle(mNoEventText);
                     copy.setPlaceholder(true);
                     getEvents().add(copy);
                 }

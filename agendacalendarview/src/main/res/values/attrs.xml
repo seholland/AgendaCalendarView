@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ColorOptionsView">
+    <declare-styleable name="AgendaCalendarViewOptions">
         <attr name="agendaCurrentDayTextColor" format="color" />
         <attr name="calendarHeaderColor" format="color" />
         <attr name="calendarColor" format="color" />
@@ -9,5 +9,6 @@
         <attr name="calendarCurrentDayTextColor" format="color" />
         <attr name="calendarCurrentDayCircleColor" format="color" />
         <attr name="fabColor" format="color" />
+        <attr name="calendarNoEventText" format="string"/>
     </declare-styleable>
 </resources>
