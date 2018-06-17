@@ -236,15 +236,7 @@ public class BaseCalendarEvent implements CalendarEvent {
     public void setDuration(String duration) {
         this.mDuration = duration;
     }
-
-    public boolean isPlaceHolder() {
-        return mPlaceHolder;
-    }
-
-    public void setPlaceHolder(boolean mPlaceHolder) {
-        this.mPlaceHolder = mPlaceHolder;
-    }
-
+    
     public boolean isWeather() {
         return mWeather;
     }

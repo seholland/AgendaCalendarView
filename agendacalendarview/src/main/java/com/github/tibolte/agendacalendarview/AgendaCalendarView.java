@@ -240,7 +240,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		
 		CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
 		BusProvider.getInstance().send(new Events.EventsFetched());
-		Log.d(LOG_TAG, "CalendarEventTask finished");
+//		Log.d(LOG_TAG, "CalendarEventTask finished");
 		
 		// add default event renderer
 		addEventRenderer(new DefaultEventRenderer());
@@ -284,6 +284,26 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	public void enableFloatingIndicator(boolean enable)
 	{
 		mFloatingActionButton.setVisibility(enable ? VISIBLE : GONE);
+	}
+	
+	public IDayItem getSelectedDay()
+	{
+		return mCalendarView.getSelectedDay();
+	}
+	
+	public void setSelectedDay(long timestamp)
+	{
+		if(timestamp == 0)
+			return;
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+		mAgendaView.getAgendaListView().scrollToCurrentDate(calendar);
+	}
+	
+	public void updateEventList(List<CalendarEvent> eventList)
+	{
+		((AgendaAdapter) mAgendaView.getAgendaListView().getAdapter()).updateEvents(eventList);
 	}
 	
 	// endregion
