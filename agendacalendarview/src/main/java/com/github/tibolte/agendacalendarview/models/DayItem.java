@@ -9,127 +9,103 @@ import java.util.Date;
 /**
  * Day model class.
  */
-public class DayItem implements IDayItem {
-    private Date mDate;
-    private int mValue;
-    private int mDayOfTheWeek;
-    private boolean mToday;
-    private boolean mFirstDayOfTheMonth;
-    private boolean mSelected;
-    private String mMonth;
-
-    // region Constructor
-
-    public DayItem(Date date, int value, boolean today, String month) {
-        this.mDate = date;
-        this.mValue = value;
-        this.mToday = today;
-        this.mMonth = month;
-    }
-    // only for cleanDay
-    public DayItem() {
-
-    }
-    public DayItem(DayItem original) {
-
-        this.mDate = original.getDate();
-        this.mValue = original.getValue();
-        this.mToday = original.isToday();
-        this.mDayOfTheWeek = original.getDayOftheWeek();
-        this.mFirstDayOfTheMonth = original.isFirstDayOfTheMonth();
-        this.mSelected = original.isSelected();
-        this.mMonth = original.getMonth();
-    }
-    // endregion
-
-    // region Getters/Setters
-
-    public Date getDate() {
-        return mDate;
-    }
-
-    public void setDate(Date date) {
-        this.mDate = date;
-    }
-
-    public int getValue() {
-        return mValue;
-    }
-
-    public void setValue(int value) {
-        this.mValue = value;
-    }
-
-    public boolean isToday() {
-        return mToday;
-    }
-
-    public void setToday(boolean today) {
-        this.mToday = today;
-    }
-
-    public boolean isSelected() {
-        return mSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.mSelected = selected;
-    }
-
-    public boolean isFirstDayOfTheMonth() {
-        return mFirstDayOfTheMonth;
-    }
-
-    public void setFirstDayOfTheMonth(boolean firstDayOfTheMonth) {
-        this.mFirstDayOfTheMonth = firstDayOfTheMonth;
-    }
-
-    public String getMonth() {
-        return mMonth;
-    }
-
-    public void setMonth(String month) {
-        this.mMonth = month;
-    }
-
-    public int getDayOftheWeek() {
-        return mDayOfTheWeek;
-    }
-
-    public void setDayOftheWeek(int mDayOftheWeek) {
-        this.mDayOfTheWeek = mDayOftheWeek;
-    }
-
-    // region Public methods
-
-    public void buildDayItemFromCal(Calendar calendar) {
-        Date date = calendar.getTime();
-        this.mDate = date;
-
-        this.mValue = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mToday = DateHelper.sameDate(calendar, CalendarManager.getInstance().getToday());
-        this.mMonth = CalendarManager.getInstance().getMonthHalfNameFormat().format(date);
-        if (this.mValue == 1) {
-            this.mFirstDayOfTheMonth = true;
-        }
-    }
-
-    // endregion
-
-    @Override
-    public String toString() {
-        return "DayItem{"
-                + "Date='"
-                + mDate.toString()
-                + ", value="
-                + mValue
-                + '}';
-    }
-
-    @Override
-    public IDayItem copy() {
-        return new DayItem(this);
-    }
-
-    // endregion
+public class DayItem implements IDayItem
+{
+	private Calendar m_calendar;
+	private boolean  mSelected = false;
+	
+	// region Constructor
+	
+	public DayItem(Calendar calendar)
+	{
+		m_calendar = calendar;
+	}
+	
+	public DayItem(DayItem original)
+	{
+		m_calendar = original.getCalendar();
+		this.mSelected = original.isSelected();
+	}
+	// endregion
+	
+	// region Getters/Setters
+	
+	@Override
+	public Date getDate()
+	{
+		return m_calendar.getTime();
+	}
+	
+	@Override
+	public void setDate(Date date)
+	{
+		m_calendar.setTime(date);
+	}
+	
+	@Override
+	public int getDayOfMonth()
+	{
+		return m_calendar.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	@Override
+	public boolean isToday()
+	{
+		return DateHelper.sameDate(m_calendar, CalendarManager.getInstance().getToday());
+	}
+	
+	@Override
+	public boolean isSelected()
+	{
+		return mSelected;
+	}
+	
+	@Override
+	public void setSelected(boolean selected)
+	{
+		this.mSelected = selected;
+	}
+	
+	@Override
+	public boolean isFirstDayOfTheMonth()
+	{
+		return getDayOfMonth() == 1;
+	}
+	
+	@Override
+	public String getMonth()
+	{
+		return CalendarManager.getInstance().getMonthHalfNameFormat().format(m_calendar.getTime());
+	}
+	
+	@Override
+	public Calendar getCalendar()
+	{
+		Calendar calendar = Calendar.getInstance(CalendarManager.getInstance().getLocale());
+		calendar.setTime(m_calendar.getTime());
+		return calendar;
+	}
+	
+	@Override
+	public void setCalendar(Calendar calendar)
+	{
+		m_calendar = calendar;
+	}
+	// region Public methods
+	
+	// endregion
+	
+	@Override
+	public String toString()
+	{
+		return "DayItem{" + "Calendar='" + m_calendar.toString() + ", value=" + getDayOfMonth() + '}';
+	}
+	
+	@Override
+	public IDayItem copy()
+	{
+		return new DayItem(this);
+	}
+	
+	// endregion
 }

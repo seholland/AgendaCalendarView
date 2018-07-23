@@ -11,13 +11,9 @@ public interface IDayItem {
 
     void setDate(Date date);
 
-    int getValue();
-
-    void setValue(int value);
+    int getDayOfMonth();
 
     boolean isToday();
-
-    void setToday(boolean today);
 
     boolean isSelected();
 
@@ -25,19 +21,13 @@ public interface IDayItem {
 
     boolean isFirstDayOfTheMonth();
 
-    void setFirstDayOfTheMonth(boolean firstDayOfTheMonth);
-
     String getMonth();
-
-    void setMonth(String month);
-
-    int getDayOftheWeek();
-
-    void setDayOftheWeek(int mDayOftheWeek);
+    
+    Calendar getCalendar();
+    
+    void setCalendar(Calendar calendar);
 
     // endregion
-
-    void buildDayItemFromCal(Calendar calendar);
 
     String toString();
 

@@ -2,6 +2,7 @@ package com.github.tibolte.agendacalendarview.calendar;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
+import com.github.tibolte.agendacalendarview.calendar.weekslist.HighlightDecorator;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeekListView;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeeksAdapter;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
@@ -12,6 +13,7 @@ import com.github.tibolte.agendacalendarview.utils.DateHelper;
 import com.github.tibolte.agendacalendarview.utils.Events;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -171,6 +173,11 @@ public class CalendarView extends LinearLayout {
 
     public void setBackgroundColor(int color) {
         mListViewWeeks.setBackgroundColor(color);
+    }
+    
+    public void setHighlightDecorator(@NonNull HighlightDecorator highlightDecorator)
+    {
+        mWeeksAdapter.setHighlightDecorator(highlightDecorator);
     }
 
     // endregion

@@ -16,7 +16,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Class containing helper functions for dates
  */
-public class DateHelper {
+public class DateHelper
+{
+	
+	/**
+	 * Number of miliseconds in a day
+	 */
+	public static long MILIS_IN_DAY = 86400000;
 
     // region Public methods
 

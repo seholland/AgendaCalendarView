@@ -23,7 +23,7 @@ public class BaseCalendarEvent implements CalendarEvent {
      * Description of the event.
      */
     private String mDescription;
-    /**
+	/**
      * Where the event takes place.
      */
     private String mLocation;
@@ -293,4 +293,6 @@ public class BaseCalendarEvent implements CalendarEvent {
                 + mInstanceDay.getTime()
                 + "}";
     }
+	
+	
 }

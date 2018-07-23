@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
 import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
+import com.github.tibolte.agendacalendarview.calendar.weekslist.HighlightDecorator;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
@@ -228,7 +229,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	{
 		mCalendarPickerController = calendarPickerController;
 		
-		CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, new DayItem(), new WeekItem(), mNoEventText);
+		CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, new WeekItem(), mNoEventText);
 		
 		// Feed our views with weeks list and events
 		mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarCurrentDayCircleColor, mCalendarPastDayTextColor);
@@ -306,5 +307,9 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		((AgendaAdapter) mAgendaView.getAgendaListView().getAdapter()).updateEvents(eventList);
 	}
 	
+	public void setCalendarHighlightDecorator(@NonNull HighlightDecorator highlightDecorator)
+	{
+		mCalendarView.setHighlightDecorator(highlightDecorator);
+	}
 	// endregion
 }
