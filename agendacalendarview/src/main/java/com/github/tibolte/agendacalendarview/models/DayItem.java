@@ -18,7 +18,8 @@ public class DayItem implements IDayItem
 	
 	public DayItem(Calendar calendar)
 	{
-		m_calendar = calendar;
+		m_calendar = Calendar.getInstance(CalendarManager.getInstance().getLocale());
+		m_calendar.setTime(calendar.getTime());
 	}
 	
 	public DayItem(DayItem original)

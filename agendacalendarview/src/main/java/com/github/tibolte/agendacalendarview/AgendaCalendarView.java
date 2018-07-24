@@ -22,7 +22,6 @@ import com.github.tibolte.agendacalendarview.calendar.CalendarView;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.HighlightDecorator;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.models.WeekItem;
@@ -36,6 +35,7 @@ import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -104,18 +104,17 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	{
 		super(context, attrs);
 		
-		
-		
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AgendaCalendarViewOptions, 0, 0);
-		mAgendaCurrentDayTextColor = a.getColor(R.styleable.AgendaCalendarViewOptions_agendaCurrentDayTextColor, getResources().getColor(R.color.theme_primary));
-		mCalendarHeaderColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarHeaderColor, getResources().getColor(R.color.theme_primary_dark));
-		mCalendarBackgroundColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarColor, getResources().getColor(R.color.theme_primary));
-		mCalendarDayTextColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarDayTextColor, getResources().getColor(R.color.theme_text_icons));
-		mCalendarCurrentDayColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarCurrentDayTextColor, getResources().getColor(R.color.calendar_text_current_day));
-		mCalendarCurrentDayCircleColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarCurrentDayCircleColor, getResources().getColor(R.color.theme_primary));
-		mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarViewOptions_calendarPastDayTextColor, getResources().getColor(R.color.theme_light_primary));
-		mFabColor = a.getColor(R.styleable.AgendaCalendarViewOptions_fabColor, getResources().getColor(R.color.theme_accent));
-		mNoEventText = a.getString(R.styleable.AgendaCalendarViewOptions_calendarNoEventText);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AgendaCalendarView, 0, 0);
+		mAgendaCurrentDayTextColor = a.getColor(R.styleable.AgendaCalendarView_agendaCurrentDayTextColor, getResources().getColor(R.color.theme_primary));
+		mCalendarHeaderColor = a.getColor(R.styleable.AgendaCalendarView_calendarHeaderColor, getResources().getColor(R.color.theme_primary_dark));
+		mCalendarBackgroundColor = a.getColor(R.styleable.AgendaCalendarView_calendarColor, getResources().getColor(R.color.theme_primary));
+		mCalendarDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarDayTextColor, getResources().getColor(R.color.theme_text_icons));
+		mCalendarCurrentDayColor = a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayTextColor, getResources().getColor(R.color.calendar_text_current_day));
+		mCalendarCurrentDayCircleColor = a.getColor(R.styleable.AgendaCalendarView_calendarCurrentDayCircleColor, getResources().getColor(R.color.theme_primary));
+		mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, getResources().getColor(R.color.theme_light_primary));
+		mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, getResources().getColor(R.color.theme_accent));
+		mNoEventText = a.getString(R.styleable.AgendaCalendarView_calendarNoEventText);
+		a.recycle();
 		if(mNoEventText == null)
 		{
 			mNoEventText = context.getResources().getString(R.string.agenda_event_no_events);
@@ -124,7 +123,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		//        Log.i(LOG_TAG, "Selected circle color: " + String.format("#%06X", (0xFFFFFF & mCalendarCurrentDayCircleColor)));
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.view_agendacalendar, this, true);
+		Objects.requireNonNull(inflater).inflate(R.layout.view_agendacalendar, this, true);
 		
 		setAlpha(0f);
 	}

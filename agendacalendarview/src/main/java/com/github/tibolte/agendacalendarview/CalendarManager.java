@@ -1,7 +1,9 @@
 package com.github.tibolte.agendacalendarview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
@@ -106,7 +108,7 @@ public class CalendarManager
 		return mEvents;
 	}
 	
-	public List<CalendarEvent> getEvents(IDayItem dayItem)
+	public List<CalendarEvent> getEvents(@NonNull IDayItem dayItem)
 	{
 		ArrayList<CalendarEvent> events = new ArrayList<>();
 		for(CalendarEvent event : mEvents)
@@ -285,7 +287,7 @@ public class CalendarManager
 		}
 		cal.add(Calendar.DATE, offset);
 		
-		//        Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
+		Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
 		for(int c = 0; c < 7; c++)
 		{
 			IDayItem dayItem = new DayItem(cal);

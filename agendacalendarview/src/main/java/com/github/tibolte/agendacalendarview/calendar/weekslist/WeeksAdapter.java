@@ -204,7 +204,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 				// Show a circle if the day is selected or highlighted
 				if(dayItem.isSelected())
 				{
-					txtDay.setTextColor(mDayTextColor);
+					txtDay.setTextColor(mCurrentDayColor);
 					circleView.setVisibility(View.VISIBLE);
 					GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
 					drawable.setColor(mCurrentDayCircleColor);
@@ -215,7 +215,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 					txtDay.setTextColor(mHighlightDecorator.getHighlightTextColor());
 					circleView.setVisibility(View.VISIBLE);
 					GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
-					drawable.setColor(mCurrentDayCircleColor);
+					drawable.setColor(mHighlightDecorator.getHighlightLineColor());
 				}
 				
 				//Check to see if there should be a highlight timeline on this cell
