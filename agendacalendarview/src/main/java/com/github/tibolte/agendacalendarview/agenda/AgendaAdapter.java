@@ -21,9 +21,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  */
 public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private List<CalendarEvent> mEvents = new ArrayList<>();
-    private List<EventRenderer<?>> mRenderers = new ArrayList<>();
-    private int mCurrentDayColor;
+    private final List<CalendarEvent>    mEvents    = new ArrayList<>();
+    private final List<EventRenderer<?>> mRenderers = new ArrayList<>();
+    private final int mCurrentDayColor;
 
     // region Constructor
 

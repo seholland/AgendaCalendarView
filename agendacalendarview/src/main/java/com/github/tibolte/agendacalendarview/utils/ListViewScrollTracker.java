@@ -9,9 +9,9 @@ import android.view.View;
  * Helper class calculating the scrolling distance in the AgendaListView.
  */
 public class ListViewScrollTracker {
-    private AgendaListView mListView;
-    private SparseArray<Integer> mPositions;
-    private SparseArray<Integer> mListViewItemHeights = new SparseArray<>();
+    private final AgendaListView       mListView;
+    private       SparseArray<Integer> mPositions;
+    private final SparseArray<Integer> mListViewItemHeights = new SparseArray<>();
     private int mFirstVisiblePosition;
     private int mReferencePosition = -1; // Position of the current date in the Agenda listView
 

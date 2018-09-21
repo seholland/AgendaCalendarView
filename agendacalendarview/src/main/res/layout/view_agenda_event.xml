@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@android:color/black"
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
         <LinearLayout
                 android:id="@+id/view_agenda_event_location_container"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/calendar_text_default"
-                    android:textSize="11dp"/>
+                    android:textSize="11sp"/>
 
         </LinearLayout>
 

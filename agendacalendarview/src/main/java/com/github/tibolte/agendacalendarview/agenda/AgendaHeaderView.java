@@ -45,13 +45,13 @@ public class AgendaHeaderView extends LinearLayout {
     // region Public methods
 
     public void setDay(Calendar day, int currentDayTextColor) {
-        TextView txtDayOfMonth = (TextView) findViewById(R.id.view_agenda_day_of_month);
-        TextView txtDayOfWeek = (TextView) findViewById(R.id.view_agenda_day_of_week);
+        TextView txtDayOfMonth = findViewById(R.id.view_agenda_day_of_month);
+        TextView txtDayOfWeek = findViewById(R.id.view_agenda_day_of_week);
         View circleView = findViewById(R.id.view_day_circle_selected);
 
         Calendar today = CalendarManager.getInstance().getToday();
 
-        SimpleDateFormat dayWeekFormatter =  new SimpleDateFormat(getContext().getString(R.string.day_name_format), CalendarManager.getInstance().getLocale());;
+        SimpleDateFormat dayWeekFormatter =  new SimpleDateFormat(getContext().getString(R.string.day_name_format), CalendarManager.getInstance().getLocale());
 
         txtDayOfMonth.setTextColor(getResources().getColor(R.color.calendar_text_default));
         txtDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));

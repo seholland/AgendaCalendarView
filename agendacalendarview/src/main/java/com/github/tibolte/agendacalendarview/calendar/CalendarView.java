@@ -93,8 +93,8 @@ public class CalendarView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mDayNamesHeader = (LinearLayout) findViewById(R.id.cal_day_names);
-        mListViewWeeks = (WeekListView) findViewById(R.id.list_week);
+        mDayNamesHeader = findViewById(R.id.cal_day_names);
+        mListViewWeeks = findViewById(R.id.list_week);
         mListViewWeeks.setLayoutManager(new LinearLayoutManager(getContext()));
         mListViewWeeks.setHasFixedSize(true);
         mListViewWeeks.setItemAnimator(null);
@@ -174,7 +174,7 @@ public class CalendarView extends LinearLayout {
     public void setBackgroundColor(int color) {
         mListViewWeeks.setBackgroundColor(color);
     }
-    
+
     public void setHighlightDecorator(@NonNull HighlightDecorator highlightDecorator)
     {
         mWeeksAdapter.setHighlightDecorator(highlightDecorator);

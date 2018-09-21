@@ -17,10 +17,10 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
 
     @Override
     public void render(@NonNull View view, @NonNull BaseCalendarEvent event) {
-        TextView txtTitle = (TextView) view.findViewById(R.id.view_agenda_event_title);
-        TextView txtLocation = (TextView) view.findViewById(R.id.view_agenda_event_location);
-        LinearLayout descriptionContainer = (LinearLayout) view.findViewById(R.id.view_agenda_event_description_container);
-        LinearLayout locationContainer = (LinearLayout) view.findViewById(R.id.view_agenda_event_location_container);
+        TextView txtTitle = view.findViewById(R.id.view_agenda_event_title);
+        TextView txtLocation = view.findViewById(R.id.view_agenda_event_location);
+        LinearLayout descriptionContainer = view.findViewById(R.id.view_agenda_event_description_container);
+        LinearLayout locationContainer = view.findViewById(R.id.view_agenda_event_location_container);
 
         descriptionContainer.setVisibility(View.VISIBLE);
         txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));

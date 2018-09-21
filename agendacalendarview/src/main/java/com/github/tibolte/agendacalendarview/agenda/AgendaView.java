@@ -44,7 +44,7 @@ public class AgendaView extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mAgendaListView = (AgendaListView) findViewById(R.id.agenda_listview);
+        mAgendaListView = findViewById(R.id.agenda_listview);
         mShadowView = findViewById(R.id.view_shadow);
 
         BusProvider.getInstance().toObserverable()

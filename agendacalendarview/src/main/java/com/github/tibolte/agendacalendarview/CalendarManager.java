@@ -1,5 +1,6 @@
 package com.github.tibolte.agendacalendarview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,21 +26,22 @@ import java.util.Locale;
  */
 public class CalendarManager
 {
-	
+
 	private static final String LOG_TAG = CalendarManager.class.getSimpleName();
-	
+
+	@SuppressLint("StaticFieldLeak")
 	private static CalendarManager mInstance;
-	
-	private Context mContext;
-	private Locale  mLocale;
+
+	private final Context mContext;
+	private       Locale  mLocale;
 	private Calendar mToday = Calendar.getInstance();
 	private SimpleDateFormat mWeekdayFormatter;
 	private SimpleDateFormat mMonthHalfNameFormat;
 	private String           mNoEventText;
-	
+
 	/// instances of classes provided from outside
 	private IWeekItem mCleanWeek;
-	
+
 	/**
 	 * List of days used by the calendar
 	 */
@@ -52,14 +54,14 @@ public class CalendarManager
 	 * List of events instances
 	 */
 	private List<CalendarEvent> mEvents = new ArrayList<>();
-	
+
 	// region Constructors
-	
+
 	public CalendarManager(Context context)
 	{
 		this.mContext = context;
 	}
-	
+
 	public static CalendarManager getInstance(Context context)
 	{
 		if(mInstance == null)
@@ -68,46 +70,46 @@ public class CalendarManager
 		}
 		return mInstance;
 	}
-	
+
 	public static CalendarManager getInstance()
 	{
 		return mInstance;
 	}
-	
+
 	// endregion
-	
+
 	// region Getters/Setters
-	
+
 	public Locale getLocale()
 	{
 		return mLocale;
 	}
-	
+
 	public Context getContext()
 	{
 		return mContext;
 	}
-	
+
 	public Calendar getToday()
 	{
 		return mToday;
 	}
-	
+
 	public void setToday(Calendar today)
 	{
 		this.mToday = today;
 	}
-	
+
 	public List<IWeekItem> getWeeks()
 	{
 		return mWeeks;
 	}
-	
+
 	public List<CalendarEvent> getEvents()
 	{
 		return mEvents;
 	}
-	
+
 	public List<CalendarEvent> getEvents(@NonNull IDayItem dayItem)
 	{
 		ArrayList<CalendarEvent> events = new ArrayList<>();
@@ -120,26 +122,26 @@ public class CalendarManager
 		}
 		return events;
 	}
-	
+
 	public List<IDayItem> getDays()
 	{
 		return mDays;
 	}
-	
+
 	public SimpleDateFormat getWeekdayFormatter()
 	{
 		return mWeekdayFormatter;
 	}
-	
+
 	public SimpleDateFormat getMonthHalfNameFormat()
 	{
 		return mMonthHalfNameFormat;
 	}
-	
+
 	// endregion
-	
+
 	// region Public methods
-	
+
 	public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IWeekItem cleanWeek, @Nullable String noEventText)
 	{
 		if(minDate == null || maxDate == null)
@@ -154,7 +156,7 @@ public class CalendarManager
 		{
 			throw new IllegalArgumentException("Locale is null.");
 		}
-		
+
 		setLocale(locale);
 		if(noEventText != null)
 		{
@@ -164,42 +166,42 @@ public class CalendarManager
 		{
 			mNoEventText = mContext.getString(R.string.agenda_event_no_events);
 		}
-		
+
 		mDays.clear();
 		mWeeks.clear();
 		mEvents.clear();
-		
+
 		mCleanWeek = cleanWeek;
-		
+
 		Calendar mMinCal      = Calendar.getInstance(mLocale);
 		Calendar mMaxCal      = Calendar.getInstance(mLocale);
 		Calendar mWeekCounter = Calendar.getInstance(mLocale);
-		
+
 		mMinCal.setTime(minDate.getTime());
 		mMaxCal.setTime(maxDate.getTime());
-		
+
 		// maxDate is exclusive, here we bump back to the previous day, as maxDate if December 1st, 2020,
 		// we don't include that month in our list
 		mMaxCal.add(Calendar.MINUTE, -1);
-		
+
 		// Now iterate we iterate between mMinCal and mMaxCal so we build our list of weeks
 		mWeekCounter.setTime(mMinCal.getTime());
 		int maxMonth = mMaxCal.get(Calendar.MONTH);
 		int maxYear  = mMaxCal.get(Calendar.YEAR);
-		
+
 		int currentMonth = mWeekCounter.get(Calendar.MONTH);
 		int currentYear  = mWeekCounter.get(Calendar.YEAR);
-		
+
 		// Loop through the weeks
 		while((currentMonth <= maxMonth // Up to, including the month.
 		       || currentYear < maxYear) // Up to the year.
 		      && currentYear < maxYear + 1)
 		{ // But not > next yr.
-			
+
 			Date date = mWeekCounter.getTime();
 			// Build our week list
 			int currentWeekOfYear = mWeekCounter.get(Calendar.WEEK_OF_YEAR);
-			
+
 			IWeekItem weekItem = cleanWeek.copy();
 			weekItem.setWeekInYear(currentWeekOfYear);
 			weekItem.setYear(currentYear);
@@ -209,19 +211,19 @@ public class CalendarManager
 			List<IDayItem> dayItems = getDayCells(mWeekCounter); // gather days for the built week
 			weekItem.setDayItems(dayItems);
 			mWeeks.add(weekItem);
-			
+
 			//            Log.d(LOG_TAG, String.format("Adding week: %s", weekItem));
-			
+
 			mWeekCounter.add(Calendar.WEEK_OF_YEAR, 1);
-			
+
 			currentMonth = mWeekCounter.get(Calendar.MONTH);
 			currentYear = mWeekCounter.get(Calendar.YEAR);
 		}
 	}
-	
+
 	public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent)
 	{
-		
+
 		for(IWeekItem weekItem : getWeeks())
 		{
 			for(IDayItem dayItem : weekItem.getDayItems())
@@ -232,7 +234,7 @@ public class CalendarManager
 					if(DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime()))
 					{
 						CalendarEvent copy = event.copy();
-						
+
 						Calendar dayInstance = Calendar.getInstance();
 						dayInstance.setTime(dayItem.getDate());
 						copy.setInstanceDay(dayInstance);
@@ -248,7 +250,7 @@ public class CalendarManager
 					Calendar dayInstance = Calendar.getInstance();
 					dayInstance.setTime(dayItem.getDate());
 					CalendarEvent copy = noEvent.copy();
-					
+
 					copy.setInstanceDay(dayInstance);
 					copy.setDayReference(dayItem);
 					copy.setWeekReference(weekItem);
@@ -260,7 +262,7 @@ public class CalendarManager
 			}
 		}
 	}
-	
+
 	public void loadCal(Locale locale, List<IWeekItem> lWeeks, List<IDayItem> lDays, List<CalendarEvent> lEvents)
 	{
 		mWeeks = lWeeks;
@@ -268,17 +270,17 @@ public class CalendarManager
 		mEvents = lEvents;
 		setLocale(locale);
 	}
-	
+
 	// endregion
-	
+
 	// region Private methods
-	
+
 	private List<IDayItem> getDayCells(Calendar startCal)
 	{
 		Calendar cal = Calendar.getInstance(mLocale);
 		cal.setTime(startCal.getTime());
 		List<IDayItem> dayItems = new ArrayList<>();
-		
+
 		int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 		int offset         = cal.getFirstDayOfWeek() - firstDayOfWeek;
 		if(offset > 0)
@@ -286,7 +288,7 @@ public class CalendarManager
 			offset -= 7;
 		}
 		cal.add(Calendar.DATE, offset);
-		
+
 		Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
 		for(int c = 0; c < 7; c++)
 		{
@@ -294,11 +296,11 @@ public class CalendarManager
 			dayItems.add(dayItem);
 			cal.add(Calendar.DATE, 1);
 		}
-		
+
 		mDays.addAll(dayItems);
 		return dayItems;
 	}
-	
+
 	private void setLocale(Locale locale)
 	{
 		this.mLocale = locale;
@@ -306,6 +308,6 @@ public class CalendarManager
 		mWeekdayFormatter = new SimpleDateFormat(getContext().getString(R.string.day_name_format), mLocale);
 		mMonthHalfNameFormat = new SimpleDateFormat(getContext().getString(R.string.month_half_name_format), locale);
 	}
-	
+
 	// endregion
 }

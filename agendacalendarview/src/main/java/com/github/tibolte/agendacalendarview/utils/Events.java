@@ -11,8 +11,8 @@ public class Events {
 
     public static class DayClickedEvent {
 
-        public Calendar mCalendar;
-        public IDayItem mDayItem;
+        public final Calendar mCalendar;
+        public final IDayItem mDayItem;
 
         public DayClickedEvent(IDayItem dayItem) {
             this.mCalendar = Calendar.getInstance();
