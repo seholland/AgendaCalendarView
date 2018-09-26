@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 28
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.github.tibolte.sample"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -38,13 +38,13 @@ configurations {
 }
 
 dependencies {
-    compile project(':agendacalendarview')
+    implementation project(':agendacalendarview')
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Google libraries
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 
     // Other libraries
-    compile 'com.jakewharton:butterknife:7.0.0'
+    implementation 'com.jakewharton:butterknife:8.5.1'
 }
