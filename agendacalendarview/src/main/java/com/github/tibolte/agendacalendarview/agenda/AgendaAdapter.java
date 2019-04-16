@@ -24,11 +24,13 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
     private final List<CalendarEvent>    mEvents    = new ArrayList<>();
     private final List<EventRenderer<?>> mRenderers = new ArrayList<>();
     private final int mCurrentDayColor;
+    private final int mCurrentDayTextColor;
 
     // region Constructor
 
-    public AgendaAdapter(int currentDayTextColor) {
-        this.mCurrentDayColor = currentDayTextColor;
+    public AgendaAdapter(int currentDayTextColor, int currentDayColor) {
+        mCurrentDayTextColor = currentDayTextColor;
+        mCurrentDayColor = currentDayColor;
     }
 
     // endregion
@@ -51,7 +53,7 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
         if (agendaHeaderView == null) {
             agendaHeaderView = AgendaHeaderView.inflate(parent);
         }
-        agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayColor);
+        agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayTextColor, mCurrentDayColor);
         return agendaHeaderView;
     }
 

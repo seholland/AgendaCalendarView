@@ -35,7 +35,7 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
         }
 
         if (event.isPlaceholder()) {
-            txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));
+            txtTitle.setTextColor(view.getResources().getColor(android.R.color.darker_gray));
         } else {
             txtTitle.setTextColor(view.getResources().getColor(R.color.theme_text_icons));
         }

@@ -44,7 +44,7 @@ public class AgendaHeaderView extends LinearLayout {
 
     // region Public methods
 
-    public void setDay(Calendar day, int currentDayTextColor) {
+    public void setDay(Calendar day, int currentDayTextColor, int currentDayColor) {
         TextView txtDayOfMonth = findViewById(R.id.view_agenda_day_of_month);
         TextView txtDayOfWeek = findViewById(R.id.view_agenda_day_of_week);
         View circleView = findViewById(R.id.view_day_circle_selected);
@@ -58,9 +58,11 @@ public class AgendaHeaderView extends LinearLayout {
 
         if (DateHelper.sameDate(day, today)) {
             txtDayOfMonth.setTextColor(currentDayTextColor);
+            txtDayOfWeek.setTextColor(currentDayTextColor);
             circleView.setVisibility(VISIBLE);
             GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
-            drawable.setStroke((int) (2 * Resources.getSystem().getDisplayMetrics().density), currentDayTextColor);
+            drawable.setColor(currentDayColor);
+            drawable.setStroke((int) (2 * Resources.getSystem().getDisplayMetrics().density), currentDayColor);
         } else {
             circleView.setVisibility(INVISIBLE);
         }

@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="AgendaCalendarView">
         <attr name="agendaCurrentDayTextColor" format="color" />
+        <attr name="agendaCurrentDayColor" format="color" />
         <attr name="calendarHeaderColor" format="color" />
         <attr name="calendarColor" format="color" />
         <attr name="calendarDayTextColor" format="color" />
