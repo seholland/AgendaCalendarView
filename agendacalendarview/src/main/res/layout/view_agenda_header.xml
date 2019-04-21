@@ -10,8 +10,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp">
 
         <View
             android:id="@+id/view_day_circle_selected"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@+id/view_day_circle_selected"
             app:layout_constraintRight_toRightOf="@+id/view_day_circle_selected"
             app:layout_constraintTop_toTopOf="@+id/view_day_circle_selected"
