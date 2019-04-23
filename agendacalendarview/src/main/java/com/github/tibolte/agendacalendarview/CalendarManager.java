@@ -32,12 +32,13 @@ public class CalendarManager
 	@SuppressLint("StaticFieldLeak")
 	private static CalendarManager mInstance;
 
-	private final Context mContext;
-	private       Locale  mLocale;
-	private Calendar mToday = Calendar.getInstance();
+	private final Context    mContext;
+	private       Locale     mLocale;
+	private Calendar         mToday = Calendar.getInstance();
 	private SimpleDateFormat mWeekdayFormatter;
 	private SimpleDateFormat mMonthHalfNameFormat;
 	private String           mNoEventText;
+	private boolean          mShowPlaceholders;
 
 	/// instances of classes provided from outside
 	private IWeekItem mCleanWeek;
@@ -99,6 +100,11 @@ public class CalendarManager
 	{
 		this.mToday = today;
 	}
+	
+	public void setShowPlaceholders(boolean showPlaceholders)
+	{
+		this.mShowPlaceholders = showPlaceholders;
+	}
 
 	public List<IWeekItem> getWeeks()
 	{
@@ -142,7 +148,7 @@ public class CalendarManager
 
 	// region Public methods
 
-	public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IWeekItem cleanWeek, @Nullable String noEventText)
+	public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IWeekItem cleanWeek, @Nullable String noEventText, boolean showNoEventText)
 	{
 		if(minDate == null || maxDate == null)
 		{
@@ -166,6 +172,7 @@ public class CalendarManager
 		{
 			mNoEventText = mContext.getString(R.string.agenda_event_no_events);
 		}
+		mShowPlaceholders = showNoEventText;
 
 		mDays.clear();
 		mWeeks.clear();
@@ -240,6 +247,7 @@ public class CalendarManager
 						copy.setInstanceDay(dayInstance);
 						copy.setDayReference(dayItem);
 						copy.setWeekReference(weekItem);
+						copy.setShowPlaceholders(mShowPlaceholders);
 						// add instances in chronological order
 						getEvents().add(copy);
 						isEventForDay = true;
@@ -257,6 +265,7 @@ public class CalendarManager
 					copy.setLocation("");
 					copy.setTitle(mNoEventText);
 					copy.setPlaceholder(true);
+					copy.setShowPlaceholders(mShowPlaceholders);
 					getEvents().add(copy);
 				}
 			}

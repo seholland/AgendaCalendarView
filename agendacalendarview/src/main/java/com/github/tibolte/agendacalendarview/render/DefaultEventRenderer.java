@@ -22,6 +22,13 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
         LinearLayout descriptionContainer = view.findViewById(R.id.view_agenda_event_description_container);
         LinearLayout locationContainer = view.findViewById(R.id.view_agenda_event_location_container);
 
+        if(event.isPlaceholder() && !event.showPlaceholders())
+        {
+            view.setVisibility(View.GONE);
+            return;
+        }
+        
+        view.setVisibility(View.VISIBLE);
         descriptionContainer.setVisibility(View.VISIBLE);
         txtTitle.setTextColor(view.getResources().getColor(android.R.color.black));
 

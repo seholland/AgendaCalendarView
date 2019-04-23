@@ -8,6 +8,10 @@ public interface CalendarEvent {
     void setPlaceholder(boolean placeholder);
 
     boolean isPlaceholder();
+    
+    public boolean showPlaceholders();
+    
+    public void setShowPlaceholders(boolean mShowPlaceholders);
 
     public String getLocation();
 

@@ -10,6 +10,7 @@
         <attr name="calendarCurrentDayTextColor" format="color" />
         <attr name="calendarCurrentDayCircleColor" format="color" />
         <attr name="fabColor" format="color" />
-        <attr name="calendarNoEventText" format="string"/>
+        <attr name="calendarNoEventText" format="string" />
+        <attr name="showNoEventText" format="boolean" />
     </declare-styleable>
 </resources>

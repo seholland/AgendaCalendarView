@@ -48,6 +48,8 @@ public class BaseCalendarEvent implements CalendarEvent {
      * no event for that day.
      */
     private boolean mPlaceHolder;
+    
+    private boolean mShowPlaceholders;
     /**
      * Tells if this BaseCalendarEvent instance is used as a forecast information holder in the agenda
      * view.
@@ -140,6 +142,8 @@ public class BaseCalendarEvent implements CalendarEvent {
         this.mLocation = calendarEvent.getLocation();
         this.mStartTime = calendarEvent.getStartTime();
         this.mEndTime = calendarEvent.getEndTime();
+        setInstanceDay(calendarEvent.getInstanceDay());
+        setDayReference(calendarEvent.getDayReference());
     }
 
     // endregion
@@ -176,11 +180,14 @@ public class BaseCalendarEvent implements CalendarEvent {
 
     public void setInstanceDay(Calendar mInstanceDay) {
         this.mInstanceDay = mInstanceDay;
-        this.mInstanceDay.set(Calendar.HOUR, 0);
-        this.mInstanceDay.set(Calendar.MINUTE, 0);
-        this.mInstanceDay.set(Calendar.SECOND, 0);
-        this.mInstanceDay.set(Calendar.MILLISECOND, 0);
-        this.mInstanceDay.set(Calendar.AM_PM, 0);
+        if(mInstanceDay != null)
+        {
+            this.mInstanceDay.set(Calendar.HOUR, 0);
+            this.mInstanceDay.set(Calendar.MINUTE, 0);
+            this.mInstanceDay.set(Calendar.SECOND, 0);
+            this.mInstanceDay.set(Calendar.MILLISECOND, 0);
+            this.mInstanceDay.set(Calendar.AM_PM, 0);
+        }
     }
 
     public Calendar getEndTime() {
@@ -190,11 +197,25 @@ public class BaseCalendarEvent implements CalendarEvent {
     public void setEndTime(Calendar mEndTime) {
         this.mEndTime = mEndTime;
     }
+    
     public void setPlaceholder(boolean placeholder) {
         mPlaceHolder = placeholder;
     }
     public boolean isPlaceholder() {
         return mPlaceHolder;
+    }
+    
+    /**
+     *  Whether or not placeholder events should be displayed.
+     */
+    public boolean showPlaceholders()
+    {
+        return mShowPlaceholders;
+    }
+    
+    public void setShowPlaceholders(boolean mShowPlaceholders)
+    {
+        this.mShowPlaceholders = mShowPlaceholders;
     }
 
     public long getId() {
@@ -293,6 +314,4 @@ public class BaseCalendarEvent implements CalendarEvent {
                 + mInstanceDay.getTime()
                 + "}";
     }
-	
-	
 }

@@ -42,7 +42,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * View holding the agenda and calendar view together.
  */
-public class AgendaCalendarView extends FrameLayout implements StickyListHeadersListView.OnStickyHeaderChangedListener
+public class AgendaCalendarView extends FrameLayout implements StickyListHeadersListView.OnStickyHeaderChangedListener,
+															   StickyListHeadersListView.OnHeaderClickListener
 {
 
 	private static final String LOG_TAG = AgendaCalendarView.class.getSimpleName();
@@ -54,6 +55,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	private int mAgendaCurrentDayTextColor, mAgendaCurrentDayColor, mCalendarHeaderColor, mCalendarBackgroundColor, mCalendarDayTextColor, mCalendarPastDayTextColor, mCalendarCurrentDayColor, mCalendarCurrentDayCircleColor,
 			mFabColor;
 	private String mNoEventText;
+	private boolean mShowNoEventText = true;
 	private CalendarPickerController mCalendarPickerController;
 
 	private ListViewScrollTracker mAgendaListViewScrollTracker;
@@ -115,6 +117,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		mCalendarPastDayTextColor = a.getColor(R.styleable.AgendaCalendarView_calendarPastDayTextColor, getResources().getColor(R.color.theme_light_primary));
 		mFabColor = a.getColor(R.styleable.AgendaCalendarView_fabColor, getResources().getColor(R.color.theme_accent));
 		mNoEventText = a.getString(R.styleable.AgendaCalendarView_calendarNoEventText);
+		mShowNoEventText = a.getBoolean(R.styleable.AgendaCalendarView_showNoEventText, true);
 		a.recycle();
 		if(mNoEventText == null)
 		{
@@ -220,6 +223,23 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	}
 
 	// endregion
+	
+	// region Interface - StickyListHeadersListView.OnHeaderClickListener
+	@Override
+	public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky)
+	{
+		if(CalendarManager.getInstance().getEvents().size() > 0)
+		{
+			CalendarEvent event = CalendarManager.getInstance().getEvents().get(itemPosition);
+			if(event != null)
+			{
+				BaseCalendarEvent blankEvent = new BaseCalendarEvent((BaseCalendarEvent) event);
+				mCalendarView.scrollToDate(blankEvent);
+				mCalendarPickerController.onEventSelected(blankEvent);
+			}
+		}
+	}
+	//endregion
 
 	// region Public methods
 
@@ -227,7 +247,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	{
 		mCalendarPickerController = calendarPickerController;
 
-		CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, new WeekItem(), mNoEventText);
+		CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, new WeekItem(), mNoEventText, mShowNoEventText);
 
 		// Feed our views with weeks list and events
 		mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarCurrentDayCircleColor, mCalendarPastDayTextColor);
@@ -236,6 +256,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor, mAgendaCurrentDayColor);
 		mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
 		mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
+		mAgendaView.getAgendaListView().setOnHeaderClickListener(this);
 
 		CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
 		BusProvider.getInstance().send(new Events.EventsFetched());
@@ -245,6 +266,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		addEventRenderer(new DefaultEventRenderer());
 	}
 
+	//TODO SEH This duplicate init function is lame - get rid of it
 	public void init(Locale locale, List<IWeekItem> lWeeks, List<IDayItem> lDays, List<CalendarEvent> lEvents, CalendarPickerController calendarPickerController)
 	{
 		mCalendarPickerController = calendarPickerController;
@@ -258,6 +280,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor, mAgendaCurrentDayColor);
 		mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
 		mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
+		mAgendaView.getAgendaListView().setOnHeaderClickListener(this);
 
 		// notify that actually everything is loaded
 		BusProvider.getInstance().send(new Events.EventsFetched());

@@ -247,8 +247,10 @@ public class CalendarView extends LinearLayout {
      * @return The selected row of the weeks list, to be updated.
      */
     private int updateSelectedDay(Calendar calendar, IDayItem dayItem) {
+        if(calendar == null || dayItem == null)
+            return mCurrentListPosition;
+        
         Integer currentWeekIndex = null;
-
         // update highlighted/selected day
         if (!dayItem.equals(getSelectedDay())) {
             dayItem.setSelected(true);
