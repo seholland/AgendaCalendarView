@@ -5,6 +5,7 @@
     <dimen name="day_cell_height">52dp</dimen>
     <dimen name="text_day_size">14dp</dimen>
     <dimen name="circle_selected_size">32dp</dimen>
+    <dimen name="circle_events_present_size">6dp</dimen>
 
     <!-- Agenda values -->
     <dimen name="circle_day_size">48dp</dimen>

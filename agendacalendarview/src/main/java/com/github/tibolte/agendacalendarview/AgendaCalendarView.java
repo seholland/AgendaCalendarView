@@ -88,7 +88,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 			{
 				toAngle = -mMaxAngle;
 			}
-			RotateAnimation rotate = new RotateAnimation(mCurrentAngle, toAngle, mFloatingActionButton.getWidth() / 2, mFloatingActionButton.getHeight() / 2);
+			RotateAnimation rotate = new RotateAnimation(mCurrentAngle, toAngle, (float)mFloatingActionButton.getWidth() / 2, (float)mFloatingActionButton.getHeight() / 2);
 			rotate.setFillAfter(true);
 			mCurrentAngle = toAngle;
 			mFloatingActionButton.startAnimation(rotate);
