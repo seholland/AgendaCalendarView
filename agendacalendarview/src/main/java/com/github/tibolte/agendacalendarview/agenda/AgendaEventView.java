@@ -28,10 +28,6 @@ public class AgendaEventView extends LinearLayout {
 
     public AgendaEventView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setPadding(getResources().getDimensionPixelSize(R.dimen.agenda_event_view_padding_left),
-                getResources().getDimensionPixelSize(R.dimen.agenda_event_view_padding_top),
-                getResources().getDimensionPixelSize(R.dimen.agenda_event_view_padding_right),
-                getResources().getDimensionPixelSize(R.dimen.agenda_event_view_padding_bottom));
     }
 
     // endregion

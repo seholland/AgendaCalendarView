@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.tibolte.agendacalendarview.agenda.AgendaEventView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+<com.github.tibolte.agendacalendarview.agenda.AgendaEventView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/agenda_event_view_padding_top"
+    android:paddingRight="@dimen/agenda_event_view_padding_right"
+    android:paddingBottom="@dimen/agenda_event_view_padding_bottom">
 
+    <!-- Padding for compact view -->
+    <View
+        android:id="@+id/margin_spacer"
+        android:layout_width="@dimen/agenda_event_view_padding_left"
+        android:layout_height="match_parent"
+        android:visibility="visible"></View>
     <!-- Description -->
     <LinearLayout
         android:id="@+id/view_agenda_event_description_container"

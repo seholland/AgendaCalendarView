@@ -3,6 +3,8 @@
     <string name="month_half_name_format">MMM</string>
     <string name="month_name_format">MMMM</string>
     <string name="day_name_format">EEE</string>
+    <string name="wide_date_name_format">EEEE, MMMM d</string>
+    <string name="wide_today_date_name_format">\'Today \'EEEE, MMMM d</string>
 
     <!-- Agenda -->
     <string name="agenda_event_day_duration">d</string>

@@ -8,45 +8,90 @@
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/view_day_circle_selected"
-            android:layout_width="@dimen/circle_day_size"
-            android:layout_height="@dimen/circle_day_size"
-            android:background="@drawable/agenda_day_circle"
-            android:visibility="invisible"
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/calendar_text_default" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/compact_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+            <View
+                android:id="@+id/view_day_circle_selected"
+                android:layout_width="@dimen/circle_day_size"
+                android:layout_height="@dimen/circle_day_size"
+                android:background="@drawable/agenda_day_circle"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/view_agenda_day_of_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/view_day_circle_selected"
+                app:layout_constraintRight_toRightOf="@+id/view_day_circle_selected"
+                app:layout_constraintTop_toTopOf="@+id/view_day_circle_selected"
+                tools:text="9" />
+
+            <TextView
+                android:id="@+id/view_agenda_day_of_week"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="3dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_day_circle_selected"
+                app:layout_constraintLeft_toLeftOf="@+id/view_day_circle_selected"
+                app:layout_constraintRight_toRightOf="@+id/view_day_circle_selected"
+                tools:text="Tue" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/wide_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/divider">
 
-        <TextView
-            android:id="@+id/view_agenda_day_of_month"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/view_day_circle_selected"
-            app:layout_constraintRight_toRightOf="@+id/view_day_circle_selected"
-            app:layout_constraintTop_toTopOf="@+id/view_day_circle_selected"
-            tools:text="9" />
+            <TextView
+                android:id="@+id/wide_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="December 32, 2000" />
 
-        <TextView
-            android:id="@+id/view_agenda_day_of_week"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="3dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/view_day_circle_selected"
-            app:layout_constraintLeft_toLeftOf="@+id/view_day_circle_selected"
-            app:layout_constraintRight_toRightOf="@+id/view_day_circle_selected"
-            tools:text="Tue" />
-
+            <ImageView
+                android:id="@+id/wide_date_decoration"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/fab_arrow"
+                android:tint="@color/calendar_text_default"
+                app:layout_constraintBottom_toBottomOf="@id/wide_date"
+                app:layout_constraintLeft_toRightOf="@id/wide_date"
+                app:layout_constraintTop_toTopOf="@id/wide_date" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
 </com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView>

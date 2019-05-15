@@ -4,7 +4,9 @@ import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
 import com.github.tibolte.agendacalendarview.render.EventRenderer;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +27,17 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 	private final List<EventRenderer<?>> mRenderers = new ArrayList<>();
 	private final int mCurrentDayColor;
 	private final int mCurrentDayTextColor;
+	private final AgendaHeaderView.LayoutStyle mHeaderLayoutStyle;
+	private final Drawable mHeaderDecoration;
 	
 	// region Constructor
 	
-	public AgendaAdapter(int currentDayTextColor, int currentDayColor) {
+	public AgendaAdapter(int currentDayTextColor, int currentDayColor, AgendaHeaderView.LayoutStyle style, @Nullable Drawable headerDecoration)
+	{
 		mCurrentDayTextColor = currentDayTextColor;
 		mCurrentDayColor = currentDayColor;
+		mHeaderLayoutStyle = style;
+		mHeaderDecoration = headerDecoration;
 	}
 	
 	// endregion
@@ -53,7 +60,7 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 		if (agendaHeaderView == null) {
 			agendaHeaderView = AgendaHeaderView.inflate(parent);
 		}
-		agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayTextColor, mCurrentDayColor);
+		agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayTextColor, mCurrentDayColor, mHeaderLayoutStyle, mHeaderDecoration);
 		return agendaHeaderView;
 	}
 	
@@ -93,8 +100,13 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 				break;
 			}
 		}
-		convertView = LayoutInflater.from(parent.getContext())
-				.inflate(eventRenderer.getEventLayout(), parent, false);
+		
+		if(convertView == null || ((int)convertView.getTag()) != eventRenderer.getEventLayout())
+		{
+			convertView = LayoutInflater.from(parent.getContext())
+					.inflate(eventRenderer.getEventLayout(), parent, false);
+			convertView.setTag(eventRenderer.getEventLayout());
+		}
 		eventRenderer.render(convertView, event);
 		return convertView;
 	}
