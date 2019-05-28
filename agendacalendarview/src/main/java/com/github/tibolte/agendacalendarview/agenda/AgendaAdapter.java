@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,15 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Adapter for the agenda, implements StickyListHeadersAdapter.
  * Days as sections and CalendarEvents as list items.
  */
-public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter
+{
 	
-	private final List<CalendarEvent>    mEvents    = new ArrayList<>();
-	private final List<EventRenderer<?>> mRenderers = new ArrayList<>();
-	private final int mCurrentDayColor;
-	private final int mCurrentDayTextColor;
+	private final List<CalendarEvent>          mEvents    = new ArrayList<>();
+	private final List<EventRenderer<?>>       mRenderers = new ArrayList<>();
+	private final int                          mCurrentDayColor;
+	private final int                          mCurrentDayTextColor;
 	private final AgendaHeaderView.LayoutStyle mHeaderLayoutStyle;
-	private final Drawable mHeaderDecoration;
+	private final Drawable                     mHeaderDecoration;
 	
 	// region Constructor
 	
@@ -44,10 +46,19 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 	
 	// region Public methods
 	
-	public void updateEvents(List<CalendarEvent> events) {
+	/**
+	 * @param events The complete list of events including 'no event' events for empty days
+	 */
+	public void setEvents(List<CalendarEvent> events)
+	{
 		this.mEvents.clear();
 		this.mEvents.addAll(events);
 		notifyDataSetChanged();
+	}
+	
+	public List<CalendarEvent> getEvents()
+	{
+		return mEvents;
 	}
 	
 	// endregion
@@ -55,9 +66,11 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 	// region Interface - StickyListHeadersAdapter
 	
 	@Override
-	public View getHeaderView(int position, View convertView, ViewGroup parent) {
+	public View getHeaderView(int position, View convertView, ViewGroup parent)
+	{
 		AgendaHeaderView agendaHeaderView = (AgendaHeaderView) convertView;
-		if (agendaHeaderView == null) {
+		if(agendaHeaderView == null)
+		{
 			agendaHeaderView = AgendaHeaderView.inflate(parent);
 		}
 		agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayTextColor, mCurrentDayColor, mHeaderLayoutStyle, mHeaderDecoration);
@@ -65,7 +78,8 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 	}
 	
 	@Override
-	public long getHeaderId(int position) {
+	public long getHeaderId(int position)
+	{
 		return mEvents.get(position).getInstanceDay().getTimeInMillis();
 	}
 	
@@ -74,34 +88,40 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 	// region Class - BaseAdapter
 	
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		return mEvents.size();
 	}
 	
 	@Override
-	public CalendarEvent getItem(int position) {
+	public CalendarEvent getItem(int position)
+	{
 		return mEvents.get(position);
 	}
 	
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 		return position;
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		EventRenderer eventRenderer = new DefaultEventRenderer();
-		final CalendarEvent event = getItem(position);
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+		EventRenderer       eventRenderer = new DefaultEventRenderer();
+		final CalendarEvent event         = getItem(position);
 		
 		// Search for the correct event renderer
-		for (EventRenderer renderer : mRenderers) {
-			if(event.getClass().isAssignableFrom(renderer.getRenderType())) {
+		for(EventRenderer renderer : mRenderers)
+		{
+			if(event.getClass().isAssignableFrom(renderer.getRenderType()))
+			{
 				eventRenderer = renderer;
 				break;
 			}
 		}
 		
-		if(convertView == null || ((int)convertView.getTag()) != eventRenderer.getEventLayout())
+		if(convertView == null || ((int) convertView.getTag()) != eventRenderer.getEventLayout())
 		{
 			convertView = LayoutInflater.from(parent.getContext())
 					.inflate(eventRenderer.getEventLayout(), parent, false);
@@ -111,7 +131,8 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 		return convertView;
 	}
 	
-	public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
+	public void addEventRenderer(@NonNull final EventRenderer<?> renderer)
+	{
 		mRenderers.add(renderer);
 	}
 	

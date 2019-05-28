@@ -13,8 +13,11 @@ import android.widget.FrameLayout;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
+import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.Events;
+
+import java.util.List;
 
 public class AgendaView extends FrameLayout {
 
@@ -56,7 +59,7 @@ public class AgendaView extends FrameLayout {
 //                        int offset = (int) (3 * getResources().getDimension(R.dimen.day_cell_height));
                         translateList(1);
                     } else if (event instanceof Events.EventsFetched) {
-                        ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
+                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEvents());
 
                         getViewTreeObserver().addOnGlobalLayoutListener(
                                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -82,7 +85,7 @@ public class AgendaView extends FrameLayout {
 
                         );
                     } else if (event instanceof Events.ForecastFetched) {
-                        ((AgendaAdapter) getAgendaListView().getAdapter()).updateEvents(CalendarManager.getInstance().getEvents());
+                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEvents());
                     }
                 });
     }
@@ -146,6 +149,10 @@ public class AgendaView extends FrameLayout {
     public void enablePlaceholderForCalendar(boolean enable) {
         this.enablePlaceholder = enable;
     }
-
+    
+    public List<CalendarEvent> getEvents()
+    {
+        return getAgendaListView().getEvents();
+    }
     // endregion
 }

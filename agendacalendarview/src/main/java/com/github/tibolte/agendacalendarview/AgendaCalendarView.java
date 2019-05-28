@@ -341,10 +341,33 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		calendar.setTimeInMillis(timestamp);
 		mAgendaView.getAgendaListView().scrollToCurrentDate(calendar);
 	}
-
-	public void updateEventList(List<CalendarEvent> eventList)
+	
+	/**
+	 * @param eventList The complete list of events including 'no event' events for empty days.
+	 *                  Failure to include 'no event' events will cause a NPE
+	 */
+	public void setEvents(List<CalendarEvent> eventList)
 	{
-		((AgendaAdapter) mAgendaView.getAgendaListView().getAdapter()).updateEvents(eventList);
+		try
+		{
+			((AgendaAdapter) mAgendaView.getAgendaListView().getAdapter()).setEvents(eventList);
+		}
+		catch(Throwable tr)
+		{
+			//This was probably called before initialization. Ignore.
+		}
+	}
+	
+	public List<CalendarEvent> getEventList()
+	{
+		try
+		{
+			return mAgendaView.getEvents();
+		}
+		catch(Throwable tr)
+		{
+			return null;
+		}
 	}
 
 	public void setCalendarHighlightDecorator(@NonNull HighlightDecorator highlightDecorator)

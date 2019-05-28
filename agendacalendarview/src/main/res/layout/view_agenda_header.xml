@@ -84,13 +84,16 @@
 
             <ImageView
                 android:id="@+id/wide_date_decoration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginLeft="8dp"
                 android:src="@drawable/fab_arrow"
                 android:tint="@color/calendar_text_default"
                 app:layout_constraintBottom_toBottomOf="@id/wide_date"
+                app:layout_constraintHeight_min="20dp"
                 app:layout_constraintLeft_toRightOf="@id/wide_date"
-                app:layout_constraintTop_toTopOf="@id/wide_date" />
+                app:layout_constraintTop_toTopOf="@id/wide_date"
+                app:layout_constraintWidth_min="20dp" />
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
