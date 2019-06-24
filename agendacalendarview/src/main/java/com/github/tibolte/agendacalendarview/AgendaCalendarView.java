@@ -158,7 +158,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 		mCalendarView.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor);
 		mCalendarView.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor);
 
-		mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position)));
+		mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEventAt(position)));
 
 		BusProvider.getInstance().toObserverable().subscribe(event -> {
 			if(event instanceof Events.DayClickedEvent)
@@ -222,7 +222,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 
 		if(CalendarManager.getInstance().getEvents().size() > 0)
 		{
-			CalendarEvent event = CalendarManager.getInstance().getEvents().get(position);
+			CalendarEvent event = CalendarManager.getInstance().getEventAt(position);
 			if(event != null)
 			{
 				mCalendarView.scrollToDate(event);
@@ -239,7 +239,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	{
 		if(CalendarManager.getInstance().getEvents().size() > 0)
 		{
-			CalendarEvent event = CalendarManager.getInstance().getEvents().get(itemPosition);
+			CalendarEvent event = CalendarManager.getInstance().getEventAt(itemPosition);
 			if(event != null)
 			{
 				BaseCalendarEvent blankEvent = new BaseCalendarEvent((BaseCalendarEvent) event);

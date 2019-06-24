@@ -59,7 +59,7 @@ public class AgendaView extends FrameLayout {
 //                        int offset = (int) (3 * getResources().getDimension(R.dimen.day_cell_height));
                         translateList(1);
                     } else if (event instanceof Events.EventsFetched) {
-                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEvents());
+                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEventList());
 
                         getViewTreeObserver().addOnGlobalLayoutListener(
                                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -85,7 +85,7 @@ public class AgendaView extends FrameLayout {
 
                         );
                     } else if (event instanceof Events.ForecastFetched) {
-                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEvents());
+                        ((AgendaAdapter) getAgendaListView().getAdapter()).setEvents(CalendarManager.getInstance().getEventList());
                     }
                 });
     }

@@ -10,14 +10,17 @@ import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
-import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class manages information about the calendar. (Events, weather info...)
@@ -52,9 +55,9 @@ public class CalendarManager
 	 */
 	private List<IWeekItem>     mWeeks  = new ArrayList<>();
 	/**
-	 * List of events instances
+	 * HashMap of events instances
 	 */
-	private List<CalendarEvent> mEvents = new ArrayList<>();
+	private TreeMap<Calendar, ArrayList<CalendarEvent>> mEvents = new TreeMap<>();
 
 	// region Constructors
 
@@ -111,22 +114,109 @@ public class CalendarManager
 		return mWeeks;
 	}
 
-	public List<CalendarEvent> getEvents()
+	public TreeMap<Calendar, ArrayList<CalendarEvent>> getEvents()
 	{
 		return mEvents;
 	}
-
-	public List<CalendarEvent> getEvents(@NonNull IDayItem dayItem)
+	
+	public ArrayList<CalendarEvent> getEvents(@NonNull IDayItem dayItem)
 	{
-		ArrayList<CalendarEvent> events = new ArrayList<>();
-		for(CalendarEvent event : mEvents)
+		return getEvents(dayItem.getCalendar());
+	}
+	
+	public ArrayList<CalendarEvent> getEvents(@NonNull Calendar calendar)
+	{
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, 0);
+		ArrayList<CalendarEvent> events = mEvents.get(calendar);
+		if(events == null)
 		{
-			if(DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime()))
-			{
-				events.add(event);
-			}
+			events = new ArrayList<>();
+			mEvents.put(calendar, events);
 		}
 		return events;
+	}
+	
+	public void setEvents(List<CalendarEvent> events)
+	{
+		mEvents.clear();
+		for(CalendarEvent calendarEvent : events)
+		{
+			getEvents(calendarEvent.getInstanceDay()).add(calendarEvent);
+		}
+	}
+	
+	public ArrayList<CalendarEvent> getEventList()
+	{
+		long start = System.currentTimeMillis();
+		ArrayList<CalendarEvent> events = new ArrayList<>();
+		
+		//The keys are sorted chronologically in the TreeMap
+		for(Map.Entry<Calendar, ArrayList<CalendarEvent>> entry : mEvents.entrySet())
+		{
+			ArrayList<CalendarEvent> dayEvents = entry.getValue();
+			if(dayEvents != null)
+			{
+				events.addAll(dayEvents);
+			}
+		}
+		Log.i(LOG_TAG, "Generated event list in " + (System.currentTimeMillis() - start) + " ms.");
+		
+		return events;
+	}
+	
+	public CalendarEvent getEventAt(int position)
+	{
+		for(Map.Entry<Calendar, ArrayList<CalendarEvent>> entry : mEvents.entrySet())
+		{
+			ArrayList<CalendarEvent> dayEvents = entry.getValue();
+			if(dayEvents != null)
+			{
+				if(dayEvents.size() <= position)
+				{
+					position -= dayEvents.size();
+					continue;
+				}
+				
+				return dayEvents.get(position);
+			}
+		}
+		
+		return null;
+	}
+	
+	public int getIndexForDay(@NonNull Calendar calendar)
+	{
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, 0);
+		
+		int idx = -1;
+		
+		//The keys are sorted chronologically in the TreeMap
+		for(Map.Entry<Calendar, ArrayList<CalendarEvent>> entry : mEvents.entrySet())
+		{
+			if(entry.getKey().equals(calendar))
+			{
+				idx++;
+				break;
+			}
+			else
+			{
+				ArrayList<CalendarEvent> dayEvents = entry.getValue();
+				if(dayEvents != null)
+				{
+					idx += dayEvents.size();
+				}
+			}
+		}
+		
+		return idx;
 	}
 
 	public List<IDayItem> getDays()
@@ -230,18 +320,34 @@ public class CalendarManager
 
 	public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent)
 	{
-
+		//Convert the event list to a TreeMap
+		TreeMap<Calendar, ArrayList<CalendarEvent>> eventMap = new TreeMap<>();
+		for(CalendarEvent calendarEvent : eventList)
+		{
+			ArrayList<CalendarEvent> dayEvents = eventMap.get(calendarEvent.getInstanceDay());
+			if(dayEvents == null)
+			{
+				dayEvents = new ArrayList<>();
+				eventMap.put(calendarEvent.getInstanceDay(), dayEvents);
+			}
+			
+			dayEvents.add(calendarEvent);
+		}
+		
 		for(IWeekItem weekItem : getWeeks())
 		{
 			for(IDayItem dayItem : weekItem.getDayItems())
 			{
-				boolean isEventForDay = false;
-				for(CalendarEvent event : eventList)
+//				Log.i(LOG_TAG, "Loading: " + dayItem.getDate().toString());
+				Calendar dayItemAllBalls = dayItem.copy().getCalendar();
+				
+				ArrayList<CalendarEvent> currentEvents = eventMap.get(dayItemAllBalls);
+				if(currentEvents != null && currentEvents.size() > 0)
 				{
-					if(DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime()))
+					for(CalendarEvent calendarEvent : currentEvents)
 					{
-						CalendarEvent copy = event.copy();
-
+						CalendarEvent copy = calendarEvent.copy();
+						
 						Calendar dayInstance = Calendar.getInstance();
 						dayInstance.setTime(dayItem.getDate());
 						copy.setInstanceDay(dayInstance);
@@ -249,11 +355,10 @@ public class CalendarManager
 						copy.setWeekReference(weekItem);
 						copy.setShowPlaceholders(mShowPlaceholders);
 						// add instances in chronological order
-						getEvents().add(copy);
-						isEventForDay = true;
+						getEvents(dayItem).add(copy);
 					}
 				}
-				if(!isEventForDay)
+				else
 				{
 					Calendar dayInstance = Calendar.getInstance();
 					dayInstance.setTime(dayItem.getDate());
@@ -266,7 +371,7 @@ public class CalendarManager
 					copy.setTitle(mNoEventText);
 					copy.setPlaceholder(true);
 					copy.setShowPlaceholders(mShowPlaceholders);
-					getEvents().add(copy);
+					getEvents(dayItem).add(copy);
 				}
 			}
 		}
@@ -276,7 +381,7 @@ public class CalendarManager
 	{
 		mWeeks = lWeeks;
 		mDays = lDays;
-		mEvents = lEvents;
+		setEvents(lEvents);
 		setLocale(locale);
 	}
 
@@ -298,7 +403,7 @@ public class CalendarManager
 		}
 		cal.add(Calendar.DATE, offset);
 
-		Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
+//		Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
 		for(int c = 0; c < 7; c++)
 		{
 			IDayItem dayItem = new DayItem(cal);

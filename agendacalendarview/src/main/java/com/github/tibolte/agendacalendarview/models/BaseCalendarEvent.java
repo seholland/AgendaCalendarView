@@ -174,7 +174,19 @@ public class BaseCalendarEvent implements CalendarEvent {
         this.mDescription = mDescription;
     }
 
-    public Calendar getInstanceDay() {
+    public Calendar getInstanceDay()
+    {
+        if(mInstanceDay != null)
+        {
+            return mInstanceDay;
+        }
+        else if(mStartTime != null)
+        {
+            Calendar dayInstance = Calendar.getInstance();
+            dayInstance.setTime(mStartTime.getTime());
+            setInstanceDay(dayInstance);
+        }
+        
         return mInstanceDay;
     }
 

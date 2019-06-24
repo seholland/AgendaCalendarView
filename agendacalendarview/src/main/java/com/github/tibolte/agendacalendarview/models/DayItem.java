@@ -18,8 +18,7 @@ public class DayItem implements IDayItem
 	
 	public DayItem(Calendar calendar)
 	{
-		m_calendar = Calendar.getInstance(CalendarManager.getInstance().getLocale());
-		m_calendar.setTime(calendar.getTime());
+		setCalendar(calendar);
 	}
 	
 	public DayItem(DayItem original)
@@ -90,7 +89,13 @@ public class DayItem implements IDayItem
 	@Override
 	public void setCalendar(Calendar calendar)
 	{
-		m_calendar = calendar;
+		m_calendar = Calendar.getInstance(CalendarManager.getInstance().getLocale());
+		m_calendar.setTime(calendar.getTime());
+		m_calendar.set(Calendar.HOUR, 0);
+		m_calendar.set(Calendar.MINUTE, 0);
+		m_calendar.set(Calendar.SECOND, 0);
+		m_calendar.set(Calendar.MILLISECOND, 0);
+		m_calendar.set(Calendar.AM_PM, 0);
 	}
 	// region Public methods
 	
