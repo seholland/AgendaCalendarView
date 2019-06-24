@@ -218,7 +218,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 	@Override
 	public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView, View header, int position, long headerId)
 	{
-		Log.d(LOG_TAG, String.format("onStickyHeaderChanged, position = %d, headerId = %d", position, headerId));
+//		Log.d(LOG_TAG, String.format("onStickyHeaderChanged, position = %d, headerId = %d", position, headerId));
 
 		if(CalendarManager.getInstance().getEvents().size() > 0)
 		{
