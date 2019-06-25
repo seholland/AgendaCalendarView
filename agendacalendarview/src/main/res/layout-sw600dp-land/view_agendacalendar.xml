@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.tibolte.agendacalendarview.AgendaCalendarView">
+
+    <com.github.tibolte.agendacalendarview.calendar.CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.33" />
+
+    <com.github.tibolte.agendacalendarview.agenda.AgendaView
+        android:id="@+id/agenda_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/calendar_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></com.github.tibolte.agendacalendarview.agenda.AgendaView>
+
+    <com.github.tibolte.agendacalendarview.widgets.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        style="@style/fab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/agenda_view" />
+</android.support.constraint.ConstraintLayout>
